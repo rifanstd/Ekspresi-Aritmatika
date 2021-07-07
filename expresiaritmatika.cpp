@@ -80,6 +80,7 @@ int main()
         tmp.clear();
     }
 
+//     cout << "Print : ";
 //     vector <string>::iterator parsing;
 //     for(parsing = infix.begin(); parsing != infix.end(); parsing++)
 //     {
@@ -132,7 +133,8 @@ int main()
         P.push_back(S.top());
         S.pop();
     }
-
+    
+//     cout << "Print : ";
 //     for(itNew = P.begin(); itNew != P.end(); itNew++)
 //     {
 //         cout << *itNew << " ";
