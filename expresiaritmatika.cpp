@@ -14,6 +14,23 @@ bool isOp(char _isOp)
     return (_isOp == '+' || _isOp == '-' || _isOp == '*' || _isOp == '%' || _isOp == '/' || _isOp == '(');
 }
 
+bool isOperator(char _isOp)
+{
+    return (_isOp == '+' || _isOp == '-' || _isOp == '*' || _isOp == '%' || _isOp == '/');
+}
+
+int precedence(char _isPre)
+{
+    if(_isPre == '*' || _isPre == '/' || _isPre == '%')
+    {
+        return 2;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
 int main()
 {
     string inptStr;
@@ -63,10 +80,62 @@ int main()
         tmp.clear();
     }
 
-    vector <string>::iterator parsing;
-    for(parsing = infix.begin(); parsing != infix.end(); parsing++)
+//     vector <string>::iterator parsing;
+//     for(parsing = infix.begin(); parsing != infix.end(); parsing++)
+//     {
+//         cout << *parsing << " ";
+//     }
+    
+    stack <string> S;
+    vector <string> P;
+    int i = 0;
+    for(it = infix.begin(); it != infix.end(); it++)
     {
-        cout << *parsing << " ";
+        if(isdigit(infix[i].back()))
+        {
+            P.push_back(infix[i]);
+        }
+        else if(infix[i] == "(")
+        {
+            S.push(infix[i]);
+        }
+        else if(infix[i] == ")")
+        {
+            while(!S.empty() && S.top() != "(")
+            {
+                P.push_back(S.top());
+                S.pop();
+            }
+            S.pop();
+        }
+        else if(isOperator(infix[i][0]))
+        {
+            if(S.empty() || S.top() == "(")
+            {
+                S.push(infix[i]);
+            }
+            else
+            {
+                while(!S.empty() && S.top() != "(" && (precedence(infix[i][0]) <= precedence((S.top())[0])))
+                {
+                    P.push_back(S.top());
+                    S.pop();
+                }
+                S.push(infix[i]);
+            }
+        }
+        i++;
+    }
+
+    while(!S.empty())
+    {
+        P.push_back(S.top());
+        S.pop();
+    }
+
+    for(itNew = P.begin(); itNew != P.end(); itNew++)
+    {
+        cout << *itNew << " ";
     }
   
     return 0;
