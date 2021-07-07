@@ -133,10 +133,45 @@ int main()
         S.pop();
     }
 
-    for(itNew = P.begin(); itNew != P.end(); itNew++)
-    {
-        cout << *itNew << " ";
+//     for(itNew = P.begin(); itNew != P.end(); itNew++)
+//     {
+//         cout << *itNew << " ";
+//     }
+    
+    stack<string>Ss;
+    vector<string>::iterator pit;
+    double A, B, result;
+    i = 0;
+    for (pit = P.begin(); pit != P.end(); pit++){
+    	if (isdigit(P[i].back())){
+    		Ss.push(P[i]);
+    	}
+    	else if (isOperator(P[i][0])){
+    		A = strtod((Ss.top()).c_str(),NULL);
+    		Ss.pop();
+    		B = strtod((Ss.top()).c_str(),NULL);
+    		Ss.pop();
+
+    		if (P[i] == "+"){
+    			result = B + A;
+    		}
+    		else if (P[i] == "-"){
+    			result = B - A;
+    		}
+    		else if (P[i] == "/"){
+    			result = B / A;
+    		}
+    		else if (P[i] == "*"){
+    			result = B * A; 
+    		}
+    		else if (P[i] == "%"){
+    			result = (int)B % (int)A;
+    		}
+    		Ss.push(to_string(result));
+    	}
+    	i++;
     }
+    cout << strtod((Ss.top()).c_str(),NULL) << endl;
   
     return 0;
 }
